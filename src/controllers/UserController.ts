@@ -68,8 +68,7 @@ const UserController = async ()=>{
 
     router.patch('/contracts/pay/:user', async (req, res) => {
         const user = req.params.user;
-        const auth = req.user.user;
-        if (user && user.length > 0 && user === auth) {            
+        if (user && user.length > 0 ) {            
             //req.body  //usar para validar pago
             try {
                 const contracts = await repository.getAll({ user: user });
