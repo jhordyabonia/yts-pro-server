@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Contratos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="bg-gradient-custom text-white min-h-screen">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 hidden md:block bg-gray-800 p-6">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold">Dashboard</h2>
+            </div>
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700" data-section="contracts">
+                            <span>Contratos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700" data-section="reports">
+                            <span class="material-symbols-outlined"> &nbsp;&nbsp; > Informes</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        ________________________
+                    </li>
+
+                    <li><a href="../tokens/" class="flex items-center p-2 rounded hover:bg-gray-700">Tokens</a></li>
+                    <li><a href="../partners/" class="flex items-center p-2 rounded hover:bg-gray-700">Partners</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-900">
+            <!-- Header -->
+            <header class="bg-gray-800 shadow-md p-4">
+                <div class="flex items-center justify-between">
+                    <button id="mobile-menu-button" class="md:hidden text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                    <div class="flex items-center">
+                        <input type="search" 
+                               placeholder="Buscar contratos..." 
+                               class="bg-gray-700 text-white px-4 py-2 rounded-lg">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="p-6">
+                <!-- Contracts Section -->
+                <section id="contracts-section" class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold">Contratos</h2>
+                        <button id="new-contract" 
+                                class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg">
+                            Nuevo Contrato
+                        </button>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <select class="bg-gray-700 rounded-lg p-2">
+                            <option>Filtrar por Estado</option>
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                        </select>
+                        <input type="date" class="bg-gray-700 rounded-lg p-2">
+                        <button class="bg-indigo-600 hover:bg-indigo-700 rounded-lg p-2">
+                            Aplicar Filtros
+                        </button>
+                    </div>
+
+                    <!-- Contracts Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-800 rounded-lg">
+                                                       <thead>
+                                <tr>
+                                    <th class="p-4 text-left">ID</th>
+                                    <th class="p-4 text-left">Usuario</th>
+                                    <th class="p-4 text-left">Fecha de Pago</th>
+                                    <th class="p-4 text-left">Clave</th>
+                                    <th class="p-4 text-left">Estado</th>
+                                    <th class="p-4 text-left">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contracts-table-body">
+                                <!-- Data will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reports Section (hidden by default) -->
+                <section id="reports-section" class="hidden space-y-6">
+                    <h2 class="text-2xl font-bold">Informes</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-800 p-6 rounded-lg">
+                            <h3 class="text-xl mb-4">Contratos por Estado</h3>
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                        <div class="bg-gray-800 p-6 rounded-lg">
+                            <h3 class="text-xl mb-4">Contratos por Mes</h3>
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para nuevo/editar contrato -->
+    <div id="contract-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+            <h3 class="text-xl font-bold mb-4">Contrato</h3>
+            <form id="contract-form" class="space-y-4">
+                <!-- Los campos se generarán dinámicamente basados en el modelo Contract -->
+                <input type="hidden" id="contract-id">
+                <div>
+                    <label for="contract-user" class="block mb-1">Usuario</label>
+                    <input type="text" id="contract-user" class="w-full p-2               bg-gray-700 rounded-lg" required>
+                </div>
+                <div>
+                    <label for="contract-pay-date" class="block mb-1">Fecha de Pago</label>
+                    <input type="date" id="contract-pay-date" class="w-full p-2               bg-gray-700 rounded-lg">
+                </div>
+                <div>
+                    <label for="contract-key" class="block mb-1">Clave</label>
+                    <input type="text" id="contract-key" class="w-full p-2               bg-gray-700 rounded-lg" required>
+                </div>
+                <div>
+                    <label for="contract-status" class="block mb-1">Estado</label>
+                    <select id="contract-status" class="w-full p-2               bg-gray-700 rounded-lg">
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="close-modal" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg">Cancelar</button>
+                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../dashboard.js"></script>
+    <script src="contract.js"></script>
+</body>
+</html>

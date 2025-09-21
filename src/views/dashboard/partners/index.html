@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Partners</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="bg-gradient-custom text-white min-h-screen">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 hidden md:block bg-gray-800 p-6">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold">Dashboard</h2>
+            </div>
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="../contracts/" class="flex items-center p-2 rounded hover:bg-gray-700">Contratos</a></li>
+                    <li><a href="../tokens/" class="flex items-center p-2 rounded hover:bg-gray-700">Tokens</a></li>
+                    <li><a href="/" class="flex items-center p-2 rounded bg-gray-700">Partners</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-900">
+            <header class="bg-gray-800 shadow-md p-4">
+                <div class="flex items-center justify-between">
+                    <button id="mobile-menu-button" class="md:hidden text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                    <div class="flex items-center">
+                        <input type="search" 
+                               placeholder="Buscar partners..." 
+                               class="bg-gray-700 text-white px-4 py-2 rounded-lg">
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Partners</h2>
+                    <button id="new-partner" 
+                            class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg">
+                        Nuevo Partner
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-gray-800 rounded-lg">
+                        <thead>
+                            <tr>
+                                <th class="p-4 text-left">ID</th>
+                                <th class="p-4 text-left">Nombre</th>
+                                <th class="p-4 text-left">Email</th>
+                                <th class="p-4 text-left">Canal</th>
+                                <th class="p-4 text-left">Código</th>
+                                <th class="p-4 text-left">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="partners-table-body">
+                            <!-- Data will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="partner-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+            <h3 class="text-xl font-bold mb-4">Nuevo Partner</h3>
+            <form id="partner-form" class="space-y-4">
+                <input type="hidden" id="partner-id">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Nombre</label>
+                    <input type="text" id="partner-nombre" class="w-full bg-gray-700 rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="partner-email" class="w-full bg-gray-700 rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">ID del Canal</label>
+                    <input type="text" id="partner-channel" class="w-full bg-gray-700 rounded p-2">
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="close-modal"
+                            class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded">
+                        Cancelar
+                    </button>
+                    <button type="submit" 
+                            class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../dashboard.js"></script>
+    <script src="partners.js"></script>
+</body>
+</html>

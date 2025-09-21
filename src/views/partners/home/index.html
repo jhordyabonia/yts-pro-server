@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Dashboard - YTS Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body class="bg-gradient-custom text-white min-h-screen">
+    <nav class="bg-gray-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold">YTS Pro Partners</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="partner-name" class="text-gray-300"></span>
+                    <a href="../settings/" class="hover:text-gray-300">Configuración</a>
+                    <button id="logout-btn" class="hover:text-gray-300">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">Mi Perfil Partner</h2>
+                <div id="partner-info"></div>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">Estadísticas</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <h3 class="text-sm text-gray-400">Total Referidos</h3>
+                        <p id="total-refs" class="text-2xl font-bold">0</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <h3 class="text-sm text-gray-400">Activos</h3>
+                        <p id="active-refs" class="text-2xl font-bold">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 bg-gray-800 rounded-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Mis Referidos</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th class="text-left py-3 px-4">Usuario</th>
+                            <th class="text-left py-3 px-4">Fecha</th>
+                            <th class="text-left py-3 px-4">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="referrals-list"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="home.js"></script>
+</body>
+</html>

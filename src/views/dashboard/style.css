@@ -1,0 +1,38 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.bg-gradient-custom {
+    background-image: linear-gradient(to bottom right, #1f2937, #111827);
+}
+
+/* Estilos para tabla responsive */
+@media (max-width: 640px) {
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    th, td {
+        min-width: 120px;
+    }
+}
+
+/* Animaciones para el modal */
+.modal-enter {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-exit {
+    animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
