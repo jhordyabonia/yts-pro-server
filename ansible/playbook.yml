@@ -13,6 +13,16 @@
         accept_hostkey: yes
 
     - name: Instalar dependencias con pnpm
+      ansible.builtin.command: pnpm install
+      args:
+        chdir: "{{ app_path }}"
+
+    - name: Trampilar con pnpm
       ansible.builtin.command: pnpm run build
+      args:
+        chdir: "{{ app_path }}"
+
+    - name: Reiniciar servidor con forever
+      ansible.builtin.command: forever restart dist/app.js
       args:
         chdir: "{{ app_path }}"
