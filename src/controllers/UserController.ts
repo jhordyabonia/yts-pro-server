@@ -66,7 +66,7 @@ const UserController = async ()=>{
         }
     });
 
-    router.patch('/contracts/pay/:user', authenticateToken, async (req, res) => {
+    router.patch('/contracts/pay/:user', async (req, res) => {
         const user = req.params.user;
         const auth = req.user.user;
         if (user && user.length > 0 && user === auth) {            
