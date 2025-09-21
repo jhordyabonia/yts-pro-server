@@ -1,0 +1,18 @@
+---
+- hosts: yts_pro
+  become: true
+  vars:
+    app_path: /var/www/api.yts-pro.com   # cambia por la ruta de tu proyecto
+  tasks:
+    - name: Asegurarse de que el repositorio está actualizado
+      ansible.builtin.git:
+        repo: 'git@github.com:jhordyabonia/yts-pro-server.git'
+        dest: "{{ app_path }}"
+        version: master
+        force: yes
+        accept_hostkey: yes
+
+    - name: Instalar dependencias con pnpm
+      ansible.builtin.command: pnpm run build
+      args:
+        chdir: "{{ app_path }}"
