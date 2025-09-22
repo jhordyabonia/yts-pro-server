@@ -13,6 +13,16 @@
         accept_hostkey: yes
 
     - name: Instalar dependencias con pnpm
+      ansible.builtin.command: pnpm install
+      args:
+        chdir: "{{ app_path }}"
+
+    - name: Transpilar con pnpm
       ansible.builtin.command: pnpm run build
+      args:
+        chdir: "{{ app_path }}"
+
+    - name: Reiniciar servidor con pm2
+      ansible.builtin.command: pm2 restart api-yts-pro
       args:
         chdir: "{{ app_path }}"
