@@ -17,12 +17,12 @@
       args:
         chdir: "{{ app_path }}"
 
-    - name: Trampilar con pnpm
+    - name: Transpilar con pnpm
       ansible.builtin.command: pnpm run build
       args:
         chdir: "{{ app_path }}"
 
-    - name: Reiniciar servidor con forever
-      ansible.builtin.command: forever restart dist/app.js
+    - name: Reiniciar servidor con pm2
+      ansible.builtin.command: pm2 restart api-yts-pro
       args:
         chdir: "{{ app_path }}"
