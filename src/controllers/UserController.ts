@@ -12,6 +12,7 @@ import express from 'express';
 import { ContractRepository } from "../models/Contracts/ContractRepository"
 import { TokenRepository } from "../models/Tokens/TokenRepository"
 import { authenticateToken, generateToken } from '~/validation/contractValidation';
+import { Contract } from '~/models/Contracts/Contract';
 
 const response = (data: any,status:string="ok")=>{
     return {status:status,data:data}
@@ -26,6 +27,27 @@ const UserController = async ()=>{
     const router = express.Router();    
 
 
+    router.post('/signup/', async (req, res) => {        
+        const contract = new Contract()
+        contract.user = req.body.user;
+        if (await checkUrl(contract.user) === false) {
+            res.status(422).json(response(`User ${contract.user} not found on YouTube`, "error"));
+            return;
+        }
+        if ((await repository.getAll({user:contract.user})).length > 0) {
+            res.status(422).json(response(`User ${contract.user} already has a contract`, "error"));
+            return;
+        }
+        contract.created_date = new Date();
+        try{
+            const idInsert = await repository.post(contract)        
+            res.status(200).json(response(idInsert));
+        }catch(error){            
+            res.status(422).json(response(error,"error"));
+        }
+    });
+
+
     router.post('/auth/', async (req, res) => {
         const user = req.body.user;
         if (user && user.length > 0) {
@@ -38,7 +60,7 @@ const UserController = async ()=>{
         }
     });
 
-    router.get('/contracts/url/:user', authenticateToken, async (req, res) => {
+    router.get('/url/:user', authenticateToken, async (req, res) => {
         const user = req.params.user;
         const auth = req.user.user;        
         const url = process.env.IA_URL ?? "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
@@ -66,7 +88,7 @@ const UserController = async ()=>{
         }
     });
 
-    router.patch('/contracts/pay/:user', async (req, res) => {
+    router.patch('/pay/:user', async (req, res) => {
         const user = req.params.user;
         if (user && user.length > 0 ) {            
             //req.body  //usar para validar pago
@@ -110,6 +132,22 @@ const UserController = async ()=>{
             return token.api_key;
         }
         return null;
+    }
+
+
+    async function checkUrl(channel_id:string){ 
+        const url = "https://www.youtube.com/channel/"+channel_id;
+        try {
+            const response = await fetch(url, { method: "HEAD" }); // solo pide headers
+            if (response.status === 404) {
+                return false; // La URL no existe
+            } else {
+                return true; // La URL existe
+            }
+        } catch (error) {
+            console.error(`⚠️ Error al verificar la URL:`, error.message);
+            return false; // En caso de error, asumir que no existe
+        }
     }
 
     return router
