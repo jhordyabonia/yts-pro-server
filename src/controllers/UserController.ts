@@ -26,7 +26,6 @@ const UserController = async ()=>{
 
     const router = express.Router();    
 
-
     router.post('/signup/', async (req, res) => {        
         const contract = new Contract()
         contract.user = req.body.user;
@@ -38,10 +37,16 @@ const UserController = async ()=>{
             res.status(422).json(response(`User ${contract.user} already has a contract`, "error"));
             return;
         }
-        contract.created_date = new Date();
+        contract.created_date = new Date();      
+        contract.key = await getToken(5);
+        contract.pay_date = new Date();
         try{
-            const idInsert = await repository.post(contract)        
-            res.status(200).json(response(idInsert));
+            const idInsert = await repository.post(contract)   
+            if(!idInsert){
+                res.status(422).json(response("Error creating contract","error"));
+                return;
+            }     
+            res.status(200).json(response({user:contract.user,key:generateToken({user:contract.user})}));
         }catch(error){            
             res.status(422).json(response(error,"error"));
         }
