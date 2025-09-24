@@ -52,7 +52,6 @@ const UserController = async ()=>{
         }
     });
 
-
     router.post('/auth/', async (req, res) => {
         const user = req.body.user;
         if (user && user.length > 0) {
@@ -138,7 +137,6 @@ const UserController = async ()=>{
         }
         return null;
     }
-
 
     async function checkUrl(channel_id:string){ 
         const url = "https://www.youtube.com/channel/"+channel_id;
