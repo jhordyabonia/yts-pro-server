@@ -1,0 +1,24 @@
+# Archivo robots.txt para yts-pro.com
+# Asegura que todos los bots (Google, Bing, etc.) puedan rastrear el sitio.
+
+# Directiva para todos los rastreadores
+User-agent: *
+# Permite el rastreo de todo el contenido del sitio
+Allow: /
+
+# Directiva específica para Googlebot (opcional, pero buena práctica)
+User-agent: Googlebot
+# Permite el rastreo de todo el sitio
+Allow: /
+
+# Directiva para Google Image Bot
+User-agent: Googlebot-Image
+Allow: /
+
+# Directivas de exclusión (Ejemplo: si tuvieras una carpeta de administración)
+# Disallow: /admin/
+# Disallow: /cgi-bin/
+
+# Enlace a tu Sitemaps (MUY IMPORTANTE para Google)
+# Reemplaza 'sitemap.xml' con la ruta real a tu archivo sitemap
+Sitemap: https://yts-pro.com/sitemap.xml
