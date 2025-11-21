@@ -6,8 +6,11 @@
  * @fecha: 06-08-2025
  * */
 'use-strict'
+import dotenv from 'dotenv';
 import express from 'express';
 import cors  from 'cors';
+
+dotenv.config();
 
 import { TokenController } from "./controllers/TokenController"
 import { PartnerController } from "./controllers/PartnerController"
