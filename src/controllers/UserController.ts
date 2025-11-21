@@ -67,7 +67,7 @@ const UserController = async ()=>{
     router.get('/url/:user', authenticateToken, async (req, res) => {
         const user = req.params.user;
         const auth = req.user.user;        
-        const url = process.env.IA_URL ?? "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
+        const url = process.env.IA_URL ?? "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=";
         if (user && user.length > 0) {
             if (user !== auth) {
                 res.status(403).json(response(`User ${user} unauthorized!`, "error"));
