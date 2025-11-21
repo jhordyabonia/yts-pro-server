@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<script>
+
+(function(){
+    const FALLBACK_PHONE = '573234532161';
+
+    function getLastSegment() {
+        const pathSegments = location.pathname.split('/').filter(Boolean);
+        if (pathSegments.length) return pathSegments[pathSegments.length - 1];
+
+        if (location.hash && location.hash.length > 1) return location.hash.replace(/^#\/?/, '');
+
+        if (location.search && location.search.length > 1) return location.search.replace(/^\?/, '');
+
+        return location.hostname;
+    }
+
+    function buildWaUrl(phone, message) {
+        const text = encodeURIComponent(message || '');
+        return `https://wa.me/${phone}${text ? `?text=${text}` : ''}`;
+    }
+
+    function redirectToWhatsapp() {
+        const last = getLastSegment();
+        const message = "Hola, estoy interesado en una membresía para mic canal youtube.com/channel/"+last;
+        window.location.href = buildWaUrl(FALLBACK_PHONE, message);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', redirectToWhatsapp, { once: true });
+    } else {
+        redirectToWhatsapp();
+    }
+})();
+</script>
+
+</body>
+</html>
